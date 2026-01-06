@@ -1,0 +1,24 @@
+return {
+  "akinsho/bufferline.nvim",
+  version = "*",
+  dependencies = "nvim-tree/nvim-web-devicons",
+  config = function()
+    require("bufferline").setup({
+      options = {
+        mode = "buffers",
+        separator_style = "slant",
+        always_show_bufferline = true,
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        color_icons = true,
+      },
+    })
+
+    -- Keymaps pour naviguer entre les tabs
+    local keymap = vim.keymap.set
+    keymap("n", "<Tab>", ":BufferLineCycleNext<CR>", { desc = "Onglet suivant" })
+    keymap("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { desc = "Onglet précédent" })
+    keymap("n", "<leader>x", ":bdelete<CR>", { desc = "Fermer l'onglet actuel" })
+    keymap("n", "<leader>bp", ":BufferLinePickClose<CR>", { desc = "Choisir un onglet à fermer" })
+  end,
+}
