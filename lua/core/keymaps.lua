@@ -20,4 +20,16 @@ keymap("x", "<S-i>", ":move '<-2<CR>gv-gv", { desc = "Déplace le texte sélecti
 -- K déplace le texte sélectionné vers le bas en mode visuel (activé avec V)
 keymap("x", "<S-k>", ":move '>+1<CR>gv-gv", { desc = "Déplace le texte sélectionné vers le bas en mode visuel bloc" })
 
+-- Stdheader 42
+-- F1 est déjà mappé dans stdheader.vim pour insérer l'en-tête
+
+-- Navigation des onglets/buffers
+-- Tab et Shift+Tab sont configurés dans bufferline.lua pour changer de buffer (mode normal uniquement)
+-- <leader>bn et <leader>bb sont des alternatives avec la touche leader
+-- <leader>x ferme l'onglet actuel
+-- <leader>bp choisir un onglet à fermer
+
+-- Changement de thème rapide
+-- <leader>th est configuré dans core/theme-switcher.lua pour changer de thème
+
 
