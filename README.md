@@ -23,8 +23,10 @@ export MAIL="votre_login@student.42.fr"
 Navigation entre les fichiers ouverts avec une barre d'onglets visuelle (bufferline).
 
 **Raccourcis:**
-- `Tab` - Onglet suivant
-- `Shift+Tab` - Onglet précédent
+- `Tab` - Onglet suivant (mode normal uniquement)
+- `Shift+Tab` - Onglet précédent (mode normal uniquement)
+- `<leader>bn` - Onglet suivant (alternative avec leader)
+- `<leader>bb` - Onglet précédent (alternative avec leader)
 - `<leader>x` - Fermer l'onglet actuel (leader = espace)
 - `<leader>bp` - Choisir un onglet à fermer
 

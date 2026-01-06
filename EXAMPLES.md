@@ -29,8 +29,9 @@ A visual tab bar will appear at the top of nvim showing all open buffers with:
 - Slant separators between tabs
 
 Navigate with:
-- `Tab` - next buffer
-- `Shift+Tab` - previous buffer
+- `Tab` - next buffer (normal mode only, doesn't affect insert mode indentation)
+- `Shift+Tab` - previous buffer (normal mode only)
+- `<leader>bn` / `<leader>bb` - alternative buffer navigation with leader key
 - `<leader>x` - close current buffer
 
 ## 3. Theme Switcher
@@ -48,8 +49,10 @@ Or use `:ThemeSet gruvbox` to switch to a specific theme.
 | Key | Action |
 |-----|--------|
 | `F1` | Insert/update 42 header |
-| `Tab` | Next buffer/tab |
-| `Shift+Tab` | Previous buffer/tab |
+| `Tab` | Next buffer/tab (normal mode) |
+| `Shift+Tab` | Previous buffer/tab (normal mode) |
+| `<leader>bn` | Next buffer/tab (alt) |
+| `<leader>bb` | Previous buffer/tab (alt) |
 | `<leader>th` | Cycle theme (Space + th) |
 | `<leader>x` | Close current buffer (Space + x) |
 | `<leader>e` | Toggle file explorer (Space + e) |
