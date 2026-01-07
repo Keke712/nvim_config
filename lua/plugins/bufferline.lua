@@ -11,6 +11,17 @@ return {
         show_buffer_close_icons = true,
         show_close_icon = true,
         color_icons = true,
+        right_mouse_command = nil,  -- Désactive le clic droit pour éviter fermeture accidentelle
+        middle_mouse_command = nil, -- Désactive le clic milieu aussi
+        offsets = {
+          {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            highlight = "Directory",
+            text_align = "left",
+            separator = true
+          }
+        },
       },
     })
 
