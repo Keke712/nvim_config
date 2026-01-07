@@ -12,7 +12,7 @@ return {
         show_close_icon = true,
         color_icons = true,
         right_mouse_command = nil,  -- Désactive le clic droit pour éviter fermeture accidentelle
-        middle_mouse_command = nil, -- Désactive le clic milieu aussi
+        middle_mouse_command = nil, -- Désactive le clic milieu pour éviter fermeture accidentelle
         offsets = {
           {
             filetype = "NvimTree",
