@@ -13,15 +13,19 @@ keymap("n", "<leader>nh", ":nohl<CR>", { desc = "Effacer le surlignage de la rec
 -- Sauvegarde avec CTRL+S en mode normal
 keymap("n", "<C-s>", ":w<CR>", { desc = "Sauvegarder le fichier" })
 
--- I déplace le texte sélectionné vers le haut en mode visuel (activé avec v)
+-- J déplace le texte sélectionné vers le haut en mode visuel (activé avec v)
 keymap("v", "<S-j>", ":m .-2<CR>==", { desc = "Déplace le texte sélectionné vers le haut en mode visuel" })
 -- K déplace le texte sélectionné vers le bas en mode visuel (activé avec v)
 keymap("v", "<S-k>", ":m .+1<CR>==", { desc = "Déplace le texte sélectionné vers le bas en mode visuel" })
 
--- I déplace le texte sélectionné vers le haut en mode visuel bloc (activé avec V)
-keymap("x", "<S-i>", ":move '<-2<CR>gv-gv", { desc = "Déplace le texte sélectionné vers le haut en mode visuel bloc" })
+-- J déplace le texte sélectionné vers le haut en mode visuel bloc (activé avec V)
+keymap("x", "<S-j>", ":move '<-2<CR>gv-gv", { desc = "Déplace le texte sélectionné vers le haut en mode visuel bloc" })
 -- K déplace le texte sélectionné vers le bas en mode visuel (activé avec V)
 keymap("x", "<S-k>", ":move '>+1<CR>gv-gv", { desc = "Déplace le texte sélectionné vers le bas en mode visuel bloc" })
+
+-- Défilement de l'écran (scroll) avec SHIFT+J et SHIFT+K
+keymap("n", "<S-j>", "<C-d>", { desc = "Défiler vers le bas (demi-page)" })
+keymap("n", "<S-k>", "<C-u>", { desc = "Défiler vers le haut (demi-page)" })
 
 -- Stdheader 42
 -- F1 est déjà mappé dans stdheader.vim pour insérer l'en-tête
