@@ -6,14 +6,20 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
-    require("nvim-tree").setup({})
+    require("nvim-tree").setup({
+      actions = {
+        open_file = {
+          quit_on_open = false,
+        },
+      },
+    })
 
-    -- On utilise <leader>e pour ouvrir/fermer l'explorateur
+    -- On utilise <leader>e pour basculer vers la fenêtre suivante
     vim.keymap.set(
       "n",
       "<leader>e",
-      "<cmd>NvimTreeFindFileToggle<CR>",
-      { desc = "Ouverture/fermeture de l'explorateur de fichiers" }
+      "<C-w>w",
+      { desc = "Basculer vers la fenêtre suivante" }
     )
   end,
 }
