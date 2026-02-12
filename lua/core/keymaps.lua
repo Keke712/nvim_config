@@ -14,7 +14,7 @@ keymap("n", "<leader>nh", ":nohl<CR>", { desc = "Effacer le surlignage de la rec
 keymap("n", "<C-s>", ":w<CR>", { desc = "Sauvegarder le fichier" })
 
 -- I déplace le texte sélectionné vers le haut en mode visuel (activé avec v)
-keymap("v", "<S-i>", ":m .-2<CR>==", { desc = "Déplace le texte sélectionné vers le haut en mode visuel" })
+keymap("v", "<S-j>", ":m .-2<CR>==", { desc = "Déplace le texte sélectionné vers le haut en mode visuel" })
 -- K déplace le texte sélectionné vers le bas en mode visuel (activé avec v)
 keymap("v", "<S-k>", ":m .+1<CR>==", { desc = "Déplace le texte sélectionné vers le bas en mode visuel" })
 
