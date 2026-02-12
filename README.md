@@ -46,7 +46,7 @@ Basculer rapidement entre différents thèmes colorés.
 
 ### Autres raccourcis utiles
 
-- `<leader>e` - Ouvrir/fermer l'explorateur de fichiers
+- `<leader>e` - Basculer vers la fenêtre suivante
 - `<leader>nh` - Effacer le surlignage de la recherche
 - `;;` - Sortir du mode insertion
 - `Shift+I` / `Shift+K` - Déplacer du texte sélectionné en mode visuel
