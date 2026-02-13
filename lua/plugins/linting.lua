@@ -31,7 +31,7 @@ return {
 			-- Lancer le linting automatiquement
 			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave", "TextChanged" }, {
 				group = lint_augroup,
 				callback = function()
 					-- Ne linter que si le buffer est modifiable et a un nom
@@ -41,9 +41,35 @@ return {
 				end,
 			})
 
+			-- Linter aussi en temps réel pendant la frappe (avec debounce)
+			vim.api.nvim_create_autocmd({ "TextChangedI" }, {
+				group = lint_augroup,
+				callback = function()
+					if vim.bo.modifiable and vim.fn.expand("%") ~= "" then
+						-- Debounce de 500ms
+						vim.defer_fn(function()
+							lint.try_lint()
+						end, 500)
+					end
+				end,
+			})
+
+			-- Forcer le linting à l'ouverture d'un fichier Python
+			vim.api.nvim_create_autocmd("FileType", {
+				group = lint_augroup,
+				pattern = "python",
+				callback = function()
+					vim.defer_fn(function()
+						lint.try_lint()
+						vim.notify("Linting Python activé (flake8 + mypy)", vim.log.levels.INFO)
+					end, 100)
+				end,
+			})
+
 			-- Keybinding pour lancer manuellement
 			vim.keymap.set("n", "<leader>l", function()
 				lint.try_lint()
+				vim.notify("Linting en cours...", vim.log.levels.INFO)
 			end, { desc = "Lancer le linting" })
 		end,
 	},
