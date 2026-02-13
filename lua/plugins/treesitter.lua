@@ -1,170 +1,143 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
-	build = ":TSUpdate",
-	event = { "BufReadPost", "BufNewFile" },
-	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
-	},
-	config = function()
-		local treesitter = require("nvim-treesitter.configs")
-
-		treesitter.setup({
-			-- Liste des parsers à installer automatiquement
-			ensure_installed = {
+	{
+		"nvim-treesitter/nvim-treesitter",
+		-- nvim-treesitter does NOT support lazy-loading
+		lazy = false,
+		branch = "main",
+		build = ":TSUpdate",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		config = function()
+			local highlight_filetypes = {
 				"python",
 				"lua",
 				"vim",
-				"vimdoc",
 				"c",
 				"cpp",
-				"bash",
+				"bash", "sh",
 				"json",
 				"yaml",
 				"markdown",
-				"markdown_inline",
-			},
+			}
 
-			-- Installation automatique des parsers manquants
-			auto_install = true,
+			local indent_filetypes = {
+				"python",
+				"lua",
+				"c",
+				"cpp",
+				"bash", "sh",
+				"json",
+				"yaml",
+			}
 
-			-- Activer la coloration syntaxique
-			highlight = {
-				enable = true,
-				-- Désactiver vim syntax pour éviter les conflits
-				additional_vim_regex_highlighting = false,
-			},
+			-- Helper: vérifier si un parser est disponible pour un langage
+			local function has_parser(lang)
+				local ok, _ = pcall(vim.treesitter.language.add, lang)
+				return ok
+			end
 
-			-- Indentation basée sur treesitter
-			indent = {
-				enable = true,
-			},
+			-- Helper: démarrer treesitter highlighting en toute sécurité
+			local function safe_ts_start(bufnr)
+				local ft = vim.bo[bufnr or 0].filetype
+				-- Mapper le filetype au nom du parser (sh -> bash)
+				local lang = ft
+				if ft == "sh" then lang = "bash" end
+				if has_parser(lang) then
+					pcall(vim.treesitter.start, bufnr or 0, lang)
+				end
+			end
 
-			-- Configuration pour les text objects
-			textobjects = {
-				select = {
-					enable = true,
-					lookahead = true,
-					keymaps = {
-						["af"] = "@function.outer",
-						["if"] = "@function.inner",
-						["ac"] = "@class.outer",
-						["ic"] = "@class.inner",
+			-- Détection de la version de nvim-treesitter (main vs master)
+			local ts_ok, ts = pcall(require, "nvim-treesitter")
+			local ts_configs_ok, ts_configs = pcall(require, "nvim-treesitter.configs")
+
+			if ts_ok and ts.setup then
+				-- Nouvelle API (branche main)
+				ts.setup({
+					install_dir = vim.fn.stdpath("data") .. "/site",
+				})
+
+				-- Installer les parsers de façon asynchrone
+				local parsers = {
+					"python", "lua", "vim", "vimdoc",
+					"c", "cpp", "bash",
+					"json", "yaml",
+					"markdown", "markdown_inline",
+				}
+				pcall(function()
+					ts.install(parsers)
+				end)
+
+			elseif ts_configs_ok then
+				-- Ancienne API (branche master) — fallback
+				ts_configs.setup({
+					ensure_installed = {
+						"python", "lua", "vim", "vimdoc",
+						"c", "cpp", "bash",
+						"json", "yaml",
+						"markdown", "markdown_inline",
 					},
+					auto_install = true,
+					highlight = { enable = true, additional_vim_regex_highlighting = false },
+					indent = { enable = true },
+				})
+			end
+
+			-- Activer la coloration syntaxique treesitter pour les filetypes souhaités
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = highlight_filetypes,
+				callback = function(args)
+					safe_ts_start(args.buf)
+				end,
+			})
+
+			-- Indentation basée sur treesitter (nouvelle API uniquement)
+			if ts_ok and ts.setup then
+				vim.api.nvim_create_autocmd("FileType", {
+					pattern = indent_filetypes,
+					callback = function()
+						vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end,
+				})
+			end
+
+			-- Appliquer le highlighting aux buffers déjà ouverts
+			vim.defer_fn(function()
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+					if vim.api.nvim_buf_is_loaded(buf) then
+						local ft = vim.bo[buf].filetype
+						for _, pattern in ipairs(highlight_filetypes) do
+							if ft == pattern then
+								safe_ts_start(buf)
+								break
+							end
+						end
+					end
+				end
+			end, 1000)
+
+			-- Configuration des textobjects (nouvelle API)
+			require("nvim-treesitter-textobjects").setup({
+				select = {
+					lookahead = true,
 				},
-			},
-		})
+			})
 
-		-- Palette de couleurs harmonieuse pour Python
-		-- Inspirée des thèmes modernes avec support italic et bold
-		local colors = {
-			-- Couleurs principales
-			variable = "#E0AF68", -- Jaune doré pour les variables
-			function_name = "#7AA2F7", -- Bleu clair pour les fonctions
-			function_call = "#89DDFF", -- Cyan clair pour les appels de fonction
-			builtin_special = "#BB9AF7", -- Violet pour les éléments builtin (fonctions, variables, etc.)
-			class_name = "#F7768E", -- Rouge/rose pour les classes
-			constructor = "#FF9E64", -- Orange pour les constructeurs
-			parameter = "#9ECE6A", -- Vert clair pour les paramètres
-			string = "#9ECE6A", -- Vert pour les strings
-			keyword = "#BB9AF7", -- Violet pour les keywords
-			constant = "#FF9E64", -- Orange pour les constantes
-			type_builtin = "#2AC3DE", -- Cyan pour les types builtin
-			comment = "#565F89", -- Gris pour les commentaires
-			operator = "#89DDFF", -- Cyan pour les opérateurs
-			number = "#FF9E64", -- Orange pour les nombres
-		}
-
-		-- Configuration des highlights pour Treesitter
-		local highlights = {
-			-- Variables
-			["@variable"] = { fg = colors.variable },
-			["@variable.builtin"] = { fg = colors.builtin_special, italic = true },
-			["@variable.parameter"] = { fg = colors.parameter, italic = true },
-			["@variable.member"] = { fg = colors.variable },
-
-			-- Fonctions
-			["@function"] = { fg = colors.function_name, bold = true },
-			["@function.call"] = { fg = colors.function_call },
-			["@function.builtin"] = { fg = colors.builtin_special, italic = true },
-			["@function.method"] = { fg = colors.function_name, bold = true },
-			["@function.method.call"] = { fg = colors.function_call },
-
-			-- Classes et types
-			["@type"] = { fg = colors.class_name, bold = true },
-			["@type.builtin"] = { fg = colors.type_builtin, italic = true },
-			["@type.definition"] = { fg = colors.class_name, bold = true },
-			["@constructor"] = { fg = colors.constructor, bold = true },
-
-			-- Paramètres
-			["@parameter"] = { fg = colors.parameter, italic = true },
-
-			-- Strings
-			["@string"] = { fg = colors.string },
-			["@string.documentation"] = { fg = colors.string, italic = true },
-			["@string.escape"] = { fg = colors.operator },
-			["@string.special"] = { fg = colors.constant },
-
-			-- Keywords
-			["@keyword"] = { fg = colors.keyword, bold = true },
-			["@keyword.function"] = { fg = colors.keyword, bold = true },
-			["@keyword.operator"] = { fg = colors.keyword, bold = true },
-			["@keyword.return"] = { fg = colors.keyword, bold = true },
-			["@keyword.import"] = { fg = colors.keyword, italic = true },
-
-			-- Constantes
-			["@constant"] = { fg = colors.constant, bold = true },
-			["@constant.builtin"] = { fg = colors.constant, bold = true, italic = true },
-			["@constant.macro"] = { fg = colors.constant, bold = true },
-
-			-- Autres éléments Python spécifiques
-			["@operator"] = { fg = colors.operator },
-			["@number"] = { fg = colors.number },
-			["@boolean"] = { fg = colors.constant, bold = true },
-			["@comment"] = { fg = colors.comment, italic = true },
-
-			-- Décorateurs Python
-			["@attribute"] = { fg = colors.constructor, italic = true },
-
-			-- Propriétés et champs
-			["@property"] = { fg = colors.variable },
-			["@field"] = { fg = colors.variable },
-		}
-
-		-- Configuration des highlights pour les semantic tokens LSP
-		local lsp_semantic_highlights = {
-			-- Semantic tokens pour Python (pyright)
-			["@lsp.type.class.python"] = { link = "@type" },
-			["@lsp.type.decorator.python"] = { link = "@attribute" },
-			["@lsp.type.function.python"] = { link = "@function" },
-			["@lsp.type.method.python"] = { link = "@function.method" },
-			["@lsp.type.parameter.python"] = { link = "@parameter" },
-			["@lsp.type.variable.python"] = { link = "@variable" },
-			["@lsp.type.property.python"] = { link = "@property" },
-			["@lsp.type.namespace.python"] = { fg = colors.class_name },
-			["@lsp.mod.readonly.python"] = { link = "@constant" },
-			["@lsp.typemod.variable.readonly.python"] = { link = "@constant" },
-		}
-
-		-- Appliquer les highlights
-		for group, settings in pairs(highlights) do
-			vim.api.nvim_set_hl(0, group, settings)
-		end
-
-		for group, settings in pairs(lsp_semantic_highlights) do
-			vim.api.nvim_set_hl(0, group, settings)
-		end
-
-		-- Auto-commande pour réappliquer les highlights après changement de colorscheme
-		vim.api.nvim_create_autocmd("ColorScheme", {
-			pattern = "*",
-			callback = function()
-				for group, settings in pairs(highlights) do
-					vim.api.nvim_set_hl(0, group, settings)
-				end
-				for group, settings in pairs(lsp_semantic_highlights) do
-					vim.api.nvim_set_hl(0, group, settings)
-				end
-			end,
-		})
-	end,
+			-- Keymaps pour les textobjects
+			vim.keymap.set({ "x", "o" }, "af", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "if", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ac", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ic", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
+			end)
+		end,
+	},
 }
+
