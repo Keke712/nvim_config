@@ -82,10 +82,9 @@ Basculer rapidement entre différents thèmes colorés.
 │   │   └── lazy.lua         # Configuration du gestionnaire de plugins
 │   └── plugins/
 │       ├── init.lua         # Plugins de base
-│       ├── treesitter.lua   # Configuration Treesitter
+│       ├── treesitter.lua   # Configuration Treesitter + Highlights Python
 │       ├── lsp.lua          # Configuration LSP (Pyright)
 │       ├── nvim-cmp.lua     # Autocomplétion
-│       ├── python-highlights.lua # Coloration Python
 │       ├── stdheader.vim    # En-tête 42
 │       ├── bufferline.lua   # Barre d'onglets
 │       ├── themes.lua       # Thèmes additionnels

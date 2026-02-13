@@ -47,10 +47,15 @@ Système d'autocomplétion moderne avec support des snippets.
 - `Ctrl+e` - Fermer l'autocomplétion
 - `Enter` - Confirmer la sélection
 
-### python-highlights
+### Highlights Python personnalisés (intégrés dans treesitter.lua)
 Palette de couleurs harmonieuse pour Python avec support italic et bold.
 
-**Fichier**: `lua/plugins/python-highlights.lua`
+**Fonctionnalités**:
+- 14 couleurs harmonieuses
+- Support italic et bold
+- Compatible tous thèmes
+- Réapplication automatique
+- Semantic tokens LSP
 
 **Éléments colorés**:
 - 🟡 **Variables** (`@variable`) - Jaune doré (#E0AF68)

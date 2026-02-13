@@ -4,18 +4,21 @@
 
 ### Configurations principales (283 lignes de code)
 
-1. **lua/plugins/treesitter.lua** (57 lignes)
+1. **lua/plugins/treesitter.lua** (170 lignes)
    - Plugin nvim-treesitter avec textobjects
    - Parsers installés automatiquement : python, lua, vim, c, cpp, bash, json, yaml, markdown
    - Coloration syntaxique basée sur l'AST
    - Indentation intelligente
    - Text objects pour navigation
+   - **Highlights Python intégrés** : palette harmonieuse de 14 couleurs
+   - Support italic et bold
+   - Semantic tokens LSP pour Python
 
 2. **lua/plugins/lsp.lua** (66 lignes)
    - Configuration nvim-lspconfig
    - Serveur Pyright avec semantic tokens
    - Raccourcis LSP (gd, gD, K, gr, <leader>rn, <leader>ca)
-   - Diagnostics en temps réel
+   - Diagnostics en temps réel (API moderne vim.diagnostic)
    - Support autocomplétion LSP
 
 3. **lua/plugins/nvim-cmp.lua** (42 lignes)
@@ -24,14 +27,7 @@
    - Sources : LSP, snippets, buffer, chemins
    - Raccourcis : Ctrl+j/k, Ctrl+Space, Enter
 
-4. **lua/plugins/python-highlights.lua** (118 lignes)
-   - Palette harmonieuse de 14 couleurs
-   - Highlights Treesitter personnalisés
-   - Support semantic tokens LSP
-   - Styles : italic et bold
-   - Auto-réapplication après changement de thème
-
-### Documentation (348 lignes)
+### Documentation (590+ lignes)
 
 - **PYTHON_CONFIG.md** - Documentation complète des fonctionnalités
 - **INSTALLATION.md** - Guide d'installation pas à pas
@@ -44,7 +40,7 @@ colors = {
     variable        = "#E0AF68",  -- 🟡 Jaune doré
     function_name   = "#7AA2F7",  -- 🔵 Bleu clair
     function_call   = "#89DDFF",  -- 💎 Cyan clair
-    function_builtin= "#BB9AF7",  -- 💜 Violet
+    builtin_special = "#BB9AF7",  -- 💜 Violet (éléments builtin)
     class_name      = "#F7768E",  -- 🔴 Rouge/rose
     constructor     = "#FF9E64",  -- 🟠 Orange
     parameter       = "#9ECE6A",  -- 🟢 Vert clair
