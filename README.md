@@ -4,7 +4,16 @@ Configuration Neovim personnalisée avec support pour le développement 42.
 
 ## Fonctionnalités
 
-### 1. Stdheader 42
+### 1. Support Python complet avec Treesitter et LSP
+Configuration avancée pour le développement Python avec :
+- Coloration syntaxique complète via nvim-treesitter
+- Serveur LSP Pyright avec semantic tokens
+- Autocomplétion intelligente avec nvim-cmp
+- Palette de couleurs harmonieuse avec support italic/bold
+
+**Documentation complète** : Voir [PYTHON_CONFIG.md](PYTHON_CONFIG.md)
+
+### 2. Stdheader 42
 En-tête automatique pour les fichiers de code selon le standard de l'école 42.
 
 **Utilisation:**
@@ -19,7 +28,7 @@ export USER="votre_login"
 export MAIL="votre_login@student.42.fr"
 ```
 
-### 2. Onglets/Buffers
+### 3. Onglets/Buffers
 Navigation entre les fichiers ouverts avec une barre d'onglets visuelle (bufferline).
 
 **Raccourcis:**
@@ -30,7 +39,7 @@ Navigation entre les fichiers ouverts avec une barre d'onglets visuelle (bufferl
 - `<leader>x` - Fermer l'onglet actuel (leader = espace)
 - `<leader>bp` - Choisir un onglet à fermer
 
-### 3. Changement de thème rapide
+### 4. Changement de thème rapide
 Basculer rapidement entre différents thèmes colorés.
 
 **Thèmes disponibles:**
@@ -62,6 +71,7 @@ Basculer rapidement entre différents thèmes colorés.
 ```
 .
 ├── init.lua                 # Point d'entrée principal
+├── PYTHON_CONFIG.md         # Documentation configuration Python
 ├── lua/
 │   ├── core/
 │   │   ├── init.lua         # Initialisation du core
@@ -72,6 +82,9 @@ Basculer rapidement entre différents thèmes colorés.
 │   │   └── lazy.lua         # Configuration du gestionnaire de plugins
 │   └── plugins/
 │       ├── init.lua         # Plugins de base
+│       ├── treesitter.lua   # Configuration Treesitter + Highlights Python
+│       ├── lsp.lua          # Configuration LSP (Pyright)
+│       ├── nvim-cmp.lua     # Autocomplétion
 │       ├── stdheader.vim    # En-tête 42
 │       ├── bufferline.lua   # Barre d'onglets
 │       ├── themes.lua       # Thèmes additionnels
