@@ -8,6 +8,15 @@ return {
 		local lspconfig = require("lspconfig")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
+		-- Configuration des diagnostics
+		vim.diagnostic.config({
+			virtual_text = true,
+			signs = true,
+			update_in_insert = false,
+			underline = true,
+			severity_sort = true,
+		})
+
 		-- Capacités LSP avec support des snippets
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
@@ -38,15 +47,6 @@ return {
 						diagnosticMode = "workspace",
 					},
 				},
-			},
-			-- Activer les semantic tokens pour une coloration encore plus précise
-			handlers = {
-				["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-					virtual_text = true,
-					signs = true,
-					update_in_insert = false,
-					underline = true,
-				}),
 			},
 		})
 

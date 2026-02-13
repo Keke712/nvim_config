@@ -1,6 +1,5 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	config = function()
 		-- Palette de couleurs harmonieuse pour Python
 		-- Inspirée des thèmes modernes avec support italic et bold
