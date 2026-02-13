@@ -2,7 +2,7 @@
 
 ## 📦 Fichiers créés
 
-### Configurations principales (283 lignes de code)
+### Configurations principales (278 lignes de code)
 
 1. **lua/plugins/treesitter.lua** (170 lignes)
    - Plugin nvim-treesitter avec textobjects
@@ -27,7 +27,7 @@
    - Sources : LSP, snippets, buffer, chemins
    - Raccourcis : Ctrl+j/k, Ctrl+Space, Enter
 
-### Documentation (590+ lignes)
+### Documentation (599 lignes)
 
 - **PYTHON_CONFIG.md** - Documentation complète des fonctionnalités
 - **INSTALLATION.md** - Guide d'installation pas à pas
@@ -154,9 +154,9 @@ Support complet des semantic tokens de Pyright :
 
 ## 📊 Statistiques
 
-- **Lignes de code** : 283 lignes
-- **Fichiers créés** : 4 fichiers Lua
-- **Documentation** : 3 fichiers Markdown (348 lignes)
+- **Lignes de code** : 278 lignes
+- **Fichiers créés** : 3 fichiers Lua
+- **Documentation** : 3 fichiers Markdown (599 lignes)
 - **Plugins installés** : 6+ plugins
 - **Parsers** : 11 langages
 - **Highlights** : 30+ groupes configurés
