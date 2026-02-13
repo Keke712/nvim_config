@@ -80,10 +80,9 @@ Vous devriez voir :
 - Lua, C, C++, Bash, JSON, YAML, Markdown
 
 ### Fichiers de configuration
-- `lua/plugins/treesitter.lua` - Configuration Treesitter
+- `lua/plugins/treesitter.lua` - Configuration Treesitter + highlights Python
 - `lua/plugins/lsp.lua` - Configuration LSP Pyright
 - `lua/plugins/nvim-cmp.lua` - Configuration autocomplétion
-- `lua/plugins/python-highlights.lua` - Coloration Python personnalisée
 
 ## 🎨 Palette de couleurs
 

@@ -117,7 +117,7 @@ Pour vérifier que tout fonctionne :
 
 ### Modifier les couleurs
 
-Éditez `lua/plugins/python-highlights.lua` et modifiez la table `colors` :
+Éditez `lua/plugins/treesitter.lua` et modifiez la table `colors` dans la section des highlights Python :
 
 ```lua
 local colors = {
@@ -129,7 +129,7 @@ local colors = {
 
 ### Désactiver italic/bold
 
-Dans `python-highlights.lua`, retirez les attributs `italic` et `bold` :
+Dans `treesitter.lua`, dans la section des highlights Python, retirez les attributs `italic` et `bold` :
 
 ```lua
 ["@function"] = { fg = colors.function_name }, -- Sans bold
